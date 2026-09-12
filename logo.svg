@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 150" role="img" aria-labelledby="title desc">
+  <title id="title">Bhumi Bandhu logo</title>
+  <desc id="desc">A green and navy land, house and document emblem with the words Bhumi Bandhu</desc>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1f9d55"/>
+      <stop offset="1" stop-color="#0f6b3d"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(8 10)">
+    <path d="M65 3 14 47v63c0 9 7 16 16 16h70c9 0 16-7 16-16V47L65 3Z" fill="none" stroke="#163b5c" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M9 107c23-15 42-13 58-3 16 10 31 12 54-4" fill="none" stroke="url(#g)" stroke-width="9" stroke-linecap="round"/>
+    <path d="m65 20 31 27v55H34V47l31-27Z" fill="#fff"/>
+    <path d="M65 28 40 50v42h50V50L65 28Z" fill="none" stroke="#163b5c" stroke-width="6"/>
+    <path d="M53 92V64h24v28" fill="#1f9d55"/>
+    <path d="M27 109c13-21 30-32 48-32 18 0 30 9 40 23" fill="none" stroke="#1f9d55" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  <text x="135" y="63" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="800" fill="#163b5c" letter-spacing="1">BHUMI</text>
+  <text x="300" y="63" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="800" fill="#1f9d55" letter-spacing="1">BANDHU</text>
+  <text x="137" y="94" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#536778">LAND DOCUMENTATION &amp; PROPERTY ASSISTANCE</text>
+  <path d="M137 108h270" stroke="#d9e5de" stroke-width="3"/>
+  <text x="137" y="129" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#1f6d49">Your Land • Our Guidance • A Secure Tomorrow</text>
+</svg>
