@@ -5,9 +5,9 @@
    Example: 919876543210
    ========================= */
 const CONFIG = {
-  whatsapp: "919XXXXXXXXX",
-  phone: "+91 9XXXXXXXXX",
-  email: "yourmail@example.com"
+  whatsapp: "918370833510",
+  phone: "+91 8370833510",
+  email: "officework.bolpur@gmail.com"
 };
 
 document.querySelectorAll("[data-whatsapp]").forEach(el => {
