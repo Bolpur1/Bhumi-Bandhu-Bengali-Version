@@ -4,9 +4,9 @@
 
 ## যোগাযোগের তথ্য যোগ করুন
 `script.js` ফাইলে নিচের নমুনা তথ্য পরিবর্তন করুন:
-- whatsapp: "919XXXXXXXXX"
-- phone: "+91 9XXXXXXXXX"
-- email: "yourmail@example.com"
+- whatsapp: "91 8370833510"
+- phone: "+91 8370833510"
+- email: "officework.bolpur@gmail.com"
 
 WhatsApp নম্বরে দেশের কোডসহ শুধু সংখ্যা ব্যবহার করুন। উদাহরণ: 919876543210
 
