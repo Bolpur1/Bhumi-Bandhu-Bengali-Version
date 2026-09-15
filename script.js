@@ -64,6 +64,28 @@ ${d.get("details") || "দেওয়া হয়নি"}`;
             "https://wa.me/" +
             BB_CONFIG.whatsapp +
             "?text=" +
+
+           const box = document.getElementById("galleryLightbox");
+const im = document.getElementById("lightboxImage");
+const ti = document.getElementById("lightboxTitle");
+
+document.querySelectorAll(".gallery-item").forEach(item => {
+    item.addEventListener("click", () => {
+        im.src = item.dataset.image;
+        ti.textContent = item.dataset.title;
+        box.classList.add("open");
+    });
+});
+
+document.querySelector(".gallery-close").addEventListener("click", () => {
+    box.classList.remove("open");
+});
+
+box.addEventListener("click", e => {
+    if (e.target === box) {
+        box.classList.remove("open");
+    }
+});
             encodeURIComponent(t),
             "_blank"
         );
