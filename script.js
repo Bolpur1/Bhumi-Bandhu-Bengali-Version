@@ -32,3 +32,40 @@ nav.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
   nav.classList.remove("open");
   toggle.setAttribute("aria-expanded", "false");
 }));
+const form = document.getElementById("queryForm");
+
+if (form) {
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const d = new FormData(form);
+        const mobile = String(d.get("mobile") || "").replace(/\D/g, "");
+
+        if (!/^[6-9]\d{9}$/.test(mobile)) {
+            alert("দয়া করে সঠিক ১০ সংখ্যার মোবাইল নম্বর দিন।");
+            return;
+        }
+
+        const t =
+`*ভূমি বন্ধু — নতুন কুয়েরি*
+━━━━━━━━━━━━━━
+*নাম:* ${d.get("name")}
+*মোবাইল:* ${mobile}
+*পরিষেবা:* ${d.get("service")}
+*জেলা:* ${d.get("district") || "দেওয়া হয়নি"}
+*মৌজা:* ${d.get("mouza") || "দেওয়া হয়নি"}
+*দাগ:* ${d.get("dag") || "দেওয়া হয়নি"}
+*খতিয়ান:* ${d.get("khatian") || "দেওয়া হয়নি"}
+
+*বিস্তারিত:*
+${d.get("details") || "দেওয়া হয়নি"}`;
+
+        window.open(
+            "https://wa.me/" +
+            BB_CONFIG.whatsapp +
+            "?text=" +
+            encodeURIComponent(t),
+            "_blank"
+        );
+    });
+}
