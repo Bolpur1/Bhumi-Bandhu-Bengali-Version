@@ -1112,11 +1112,13 @@ code {
 
 @media (max-width: 700px) {
 
+    .eyebrow,
     .eyebrow.green {
         font-size: 14px;
-        line-height: 1.6;
-        letter-spacing: 0;
+        line-height: 1.7;
+        letter-spacing: 0.2px;
         margin-bottom: 10px;
+        white-space: normal;
     }
 
 }
