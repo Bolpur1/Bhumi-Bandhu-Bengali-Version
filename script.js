@@ -1,68 +1,57 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-
-    /* =====================================================
-       BHUMI BANDHU CONFIGURATION
-       ===================================================== */
+    /* ================================
+       BASIC SETTINGS
+    ================================= */
 
     const WHATSAPP_NUMBER = "918370833510";
-
     const PHONE_NUMBER = "+918370833510";
-
     const EMAIL_ADDRESS = "officework.bolpur@gmail.com";
 
 
-    /* =====================================================
+    /* ================================
        WHATSAPP BUTTONS
-       ===================================================== */
+    ================================= */
 
     const whatsappButtons =
         document.querySelectorAll(
-            "[data-wa], [data-whatsapp]"
+            "[data-whatsapp], [data-wa]"
         );
-
 
     whatsappButtons.forEach(function (button) {
 
-        button.addEventListener(
-            "click",
-            function (event) {
+        button.addEventListener("click", function (event) {
 
-                event.preventDefault();
+            event.preventDefault();
 
-                const message =
-                    "নমস্কার, আমি ভূমি বন্ধু-এর পরিষেবা সম্পর্কে জানতে চাই।";
+            const message =
+                "নমস্কার, আমি ভূমি বন্ধু-এর পরিষেবা সম্পর্কে জানতে চাই।";
 
+            const whatsappURL =
+                "https://wa.me/" +
+                WHATSAPP_NUMBER +
+                "?text=" +
+                encodeURIComponent(message);
 
-                const url =
-                    "https://wa.me/" +
-                    WHATSAPP_NUMBER +
-                    "?text=" +
-                    encodeURIComponent(message);
-
-
-                window.open(
-                    url,
-                    "_blank",
-                    "noopener,noreferrer"
-                );
-
-            }
-        );
+            window.open(
+                whatsappURL,
+                "_blank",
+                "noopener,noreferrer"
+            );
+        });
 
     });
 
 
-    /* =====================================================
+    /* ================================
        MOBILE MENU
-       ===================================================== */
+    ================================= */
 
     const menuToggle =
-        document.querySelector(".menu");
+        document.querySelector(".menu-toggle");
 
     const navigation =
-        document.querySelector("header nav");
-
+        document.querySelector(".nav");
 
     if (menuToggle && navigation) {
 
@@ -71,23 +60,40 @@ document.addEventListener("DOMContentLoaded", function () {
             "false"
         );
 
+        menuToggle.setAttribute(
+            "aria-label",
+            "মেনু খুলুন"
+        );
+
+
+        /* OPEN / CLOSE MENU */
 
         menuToggle.addEventListener(
             "click",
-            function () {
+            function (event) {
+
+                event.preventDefault();
+                event.stopPropagation();
 
                 const isOpen =
                     navigation.classList.toggle("open");
-
 
                 menuToggle.setAttribute(
                     "aria-expanded",
                     isOpen ? "true" : "false"
                 );
 
+                menuToggle.setAttribute(
+                    "aria-label",
+                    isOpen
+                        ? "মেনু বন্ধ করুন"
+                        : "মেনু খুলুন"
+                );
             }
         );
 
+
+        /* CLOSE MENU AFTER CLICKING LINK */
 
         navigation
             .querySelectorAll("a")
@@ -106,17 +112,52 @@ document.addEventListener("DOMContentLoaded", function () {
                             "false"
                         );
 
+                        menuToggle.setAttribute(
+                            "aria-label",
+                            "মেনু খুলুন"
+                        );
                     }
                 );
 
             });
 
+
+        /* CLOSE MENU WHEN CLICKING OUTSIDE */
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    navigation.classList.contains("open") &&
+                    !navigation.contains(event.target) &&
+                    !menuToggle.contains(event.target)
+                ) {
+
+                    navigation.classList.remove(
+                        "open"
+                    );
+
+                    menuToggle.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                    menuToggle.setAttribute(
+                        "aria-label",
+                        "মেনু খুলুন"
+                    );
+                }
+
+            }
+        );
+
     }
 
 
-    /* =====================================================
-       PHONE
-       ===================================================== */
+    /* ================================
+       PHONE NUMBER
+    ================================= */
 
     document
         .querySelectorAll("[data-phone]")
@@ -125,26 +166,12 @@ document.addEventListener("DOMContentLoaded", function () {
             link.href =
                 "tel:" + PHONE_NUMBER;
 
-
-            const phoneText =
-                link.querySelector(
-                    "[data-phone-text]"
-                );
-
-
-            if (phoneText) {
-
-                phoneText.textContent =
-                    "+91 8370833510";
-
-            }
-
         });
 
 
-    /* =====================================================
-       EMAIL
-       ===================================================== */
+    /* ================================
+       EMAIL ADDRESS
+    ================================= */
 
     document
         .querySelectorAll("[data-email]")
@@ -153,26 +180,168 @@ document.addEventListener("DOMContentLoaded", function () {
             link.href =
                 "mailto:" + EMAIL_ADDRESS;
 
-
-            const emailText =
-                link.querySelector(
-                    "[data-email-text]"
-                );
-
-
-            if (emailText) {
-
-                emailText.textContent =
-                    EMAIL_ADDRESS;
-
-            }
-
         });
 
 
-    /* =====================================================
+    /* ================================
+       GALLERY LIGHTBOX
+    ================================= */
+
+    const galleryItems =
+        document.querySelectorAll(
+            ".gallery-item"
+        );
+
+    const galleryLightbox =
+        document.getElementById(
+            "galleryLightbox"
+        );
+
+    const lightboxImage =
+        document.getElementById(
+            "lightboxImage"
+        );
+
+    const lightboxTitle =
+        document.getElementById(
+            "lightboxTitle"
+        );
+
+    const galleryClose =
+        document.querySelector(
+            ".gallery-close"
+        );
+
+
+    /* OPEN GALLERY */
+
+    galleryItems.forEach(function (item) {
+
+        item.addEventListener(
+            "click",
+            function () {
+
+                if (!galleryLightbox) {
+                    return;
+                }
+
+                const image =
+                    item.getAttribute(
+                        "data-image"
+                    );
+
+                const title =
+                    item.getAttribute(
+                        "data-title"
+                    ) || "";
+
+
+                if (lightboxImage && image) {
+
+                    lightboxImage.src = image;
+
+                    lightboxImage.alt = title;
+
+                }
+
+
+                if (lightboxTitle) {
+
+                    lightboxTitle.textContent =
+                        title;
+
+                }
+
+
+                galleryLightbox.classList.add(
+                    "open"
+                );
+
+                document.body.style.overflow =
+                    "hidden";
+            }
+        );
+
+    });
+
+
+    /* CLOSE GALLERY */
+
+    function closeGallery() {
+
+        if (!galleryLightbox) {
+            return;
+        }
+
+        galleryLightbox.classList.remove(
+            "open"
+        );
+
+        document.body.style.overflow = "";
+
+        if (lightboxImage) {
+
+            lightboxImage.src = "";
+
+        }
+
+    }
+
+
+    if (galleryClose) {
+
+        galleryClose.addEventListener(
+            "click",
+            closeGallery
+        );
+
+    }
+
+
+    /* CLOSE WHEN CLICKING BACKGROUND */
+
+    if (galleryLightbox) {
+
+        galleryLightbox.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    event.target ===
+                    galleryLightbox
+                ) {
+
+                    closeGallery();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* CLOSE WITH ESC KEY */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                closeGallery();
+
+            }
+
+        }
+    );
+
+
+    /* ================================
        QUERY FORM
-       ===================================================== */
+    ================================= */
 
     const queryForm =
         document.getElementById(
@@ -189,68 +358,65 @@ document.addEventListener("DOMContentLoaded", function () {
                 event.preventDefault();
 
 
-                /* GET VALUES */
+                /* GET FORM VALUES */
 
                 const name =
                     document
-                    .getElementById("name")
-                    ?.value
-                    .trim() || "";
+                        .getElementById("name")
+                        ?.value
+                        .trim() || "";
 
 
                 const mobile =
                     document
-                    .getElementById("mobile")
-                    ?.value
-                    .trim() || "";
+                        .getElementById("mobile")
+                        ?.value
+                        .trim() || "";
 
 
                 const service =
                     document
-                    .getElementById("service")
-                    ?.value
-                    .trim() || "";
+                        .getElementById("service")
+                        ?.value
+                        .trim() || "";
 
 
                 const district =
                     document
-                    .getElementById("district")
-                    ?.value
-                    .trim() || "";
+                        .getElementById("district")
+                        ?.value
+                        .trim() || "";
 
 
                 const mouza =
                     document
-                    .getElementById("mouza")
-                    ?.value
-                    .trim() || "";
+                        .getElementById("mouza")
+                        ?.value
+                        .trim() || "";
 
 
                 const dag =
                     document
-                    .getElementById("dag")
-                    ?.value
-                    .trim() || "";
+                        .getElementById("dag")
+                        ?.value
+                        .trim() || "";
 
 
                 const khatian =
                     document
-                    .getElementById("khatian")
-                    ?.value
-                    .trim() || "";
+                        .getElementById("khatian")
+                        ?.value
+                        .trim() || "";
 
 
                 const details =
                     document
-                    .getElementById("details")
-                    ?.value
-                    .trim() || "";
+                        .getElementById("details")
+                        ?.value
+                        .trim() || "";
 
 
-                /* =================================================
-                   VALIDATION
-                   ================================================= */
-
+                /* VALIDATION */
 
                 if (!name) {
 
@@ -263,7 +429,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         ?.focus();
 
                     return;
-
                 }
 
 
@@ -282,7 +447,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         ?.focus();
 
                     return;
-
                 }
 
 
@@ -297,7 +461,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         ?.focus();
 
                     return;
-
                 }
 
 
@@ -312,14 +475,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         ?.focus();
 
                     return;
-
                 }
 
 
-                /* =================================================
-                   CREATE WHATSAPP MESSAGE
-                   ================================================= */
-
+                /* CREATE WHATSAPP MESSAGE */
 
                 let message =
                     "নমস্কার, আমি ভূমি বন্ধু-তে একটি কুয়েরি পাঠাতে চাই।\n\n";
@@ -403,10 +562,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     "ধন্যবাদ।";
 
 
-                /* =================================================
-                   OPEN WHATSAPP
-                   ================================================= */
-
+                /* WHATSAPP URL */
 
                 const whatsappURL =
                     "https://wa.me/" +
@@ -416,6 +572,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         message
                     );
 
+
+                /* OPEN WHATSAPP */
 
                 window.open(
                     whatsappURL,
@@ -429,10 +587,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* =====================================================
+    /* ================================
        MOBILE NUMBER INPUT
-       ONLY NUMBERS + MAX 10 DIGITS
-       ===================================================== */
+    ================================= */
 
     const mobileInput =
         document.getElementById(
@@ -448,8 +605,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 this.value =
                     this.value
-                    .replace(/\D/g, "")
-                    .slice(0, 10);
+                        .replace(/\D/g, "")
+                        .slice(0, 10);
 
             }
         );
@@ -457,9 +614,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* =====================================================
+    /* ================================
        ACTIVE NAVIGATION
-       ===================================================== */
+    ================================= */
 
     const sections =
         document.querySelectorAll(
@@ -484,12 +641,17 @@ document.addEventListener("DOMContentLoaded", function () {
         sections.forEach(
             function (section) {
 
+                const sectionTop =
+                    section.offsetTop;
+
+                const sectionBottom =
+                    sectionTop +
+                    section.offsetHeight;
+
+
                 if (
-                    position >=
-                    section.offsetTop &&
-                    position <
-                    section.offsetTop +
-                    section.offsetHeight
+                    position >= sectionTop &&
+                    position < sectionBottom
                 ) {
 
                     current =
@@ -509,10 +671,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
 
-                if (
+                const href =
                     link.getAttribute(
                         "href"
-                    ) ===
+                    );
+
+
+                if (
+                    href ===
                     "#" + current
                 ) {
 
@@ -545,5 +711,24 @@ document.addEventListener("DOMContentLoaded", function () {
         updateActiveNavigation();
 
     }
+
+
+    /* ================================
+       FOOTER YEAR
+    ================================= */
+
+    const yearElement =
+        document.getElementById(
+            "year"
+        );
+
+
+    if (yearElement) {
+
+        yearElement.textContent =
+            new Date().getFullYear();
+
+    }
+
 
 });
