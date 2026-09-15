@@ -262,6 +262,9 @@ textarea {
 
 .eyebrow.green {
     color: #1f9d55;
+    font-size: 16px;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
 }
 
 .hero h1 {
