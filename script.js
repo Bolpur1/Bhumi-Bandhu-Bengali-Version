@@ -1,11 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+
     /* =====================================================
        BHUMI BANDHU CONFIGURATION
        ===================================================== */
 
     const WHATSAPP_NUMBER = "918370833510";
+
     const PHONE_NUMBER = "+918370833510";
+
     const EMAIL_ADDRESS = "officework.bolpur@gmail.com";
 
 
@@ -13,33 +16,39 @@ document.addEventListener("DOMContentLoaded", function () {
        WHATSAPP BUTTONS
        ===================================================== */
 
-    const whatsappButtons = document.querySelectorAll(
-        "[data-whatsapp], [data-wa]"
-    );
+    const whatsappButtons =
+        document.querySelectorAll(
+            "[data-wa], [data-whatsapp]"
+        );
 
 
     whatsappButtons.forEach(function (button) {
 
-        button.addEventListener("click", function (event) {
+        button.addEventListener(
+            "click",
+            function (event) {
 
-            event.preventDefault();
+                event.preventDefault();
 
-            const message =
-                "নমস্কার, আমি ভূমি বন্ধু-এর পরিষেবা সম্পর্কে জানতে চাই।";
+                const message =
+                    "নমস্কার, আমি ভূমি বন্ধু-এর পরিষেবা সম্পর্কে জানতে চাই।";
 
-            const url =
-                "https://wa.me/" +
-                WHATSAPP_NUMBER +
-                "?text=" +
-                encodeURIComponent(message);
 
-            window.open(
-                url,
-                "_blank",
-                "noopener,noreferrer"
-            );
+                const url =
+                    "https://wa.me/" +
+                    WHATSAPP_NUMBER +
+                    "?text=" +
+                    encodeURIComponent(message);
 
-        });
+
+                window.open(
+                    url,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+
+            }
+        );
 
     });
 
@@ -49,13 +58,19 @@ document.addEventListener("DOMContentLoaded", function () {
        ===================================================== */
 
     const menuToggle =
-        document.querySelector(".menu-toggle");
+        document.querySelector(".menu");
 
     const navigation =
-        document.querySelector(".nav");
+        document.querySelector("header nav");
 
 
     if (menuToggle && navigation) {
+
+        menuToggle.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
 
         menuToggle.addEventListener(
             "click",
@@ -110,6 +125,20 @@ document.addEventListener("DOMContentLoaded", function () {
             link.href =
                 "tel:" + PHONE_NUMBER;
 
+
+            const phoneText =
+                link.querySelector(
+                    "[data-phone-text]"
+                );
+
+
+            if (phoneText) {
+
+                phoneText.textContent =
+                    "+91 8370833510";
+
+            }
+
         });
 
 
@@ -124,206 +153,25 @@ document.addEventListener("DOMContentLoaded", function () {
             link.href =
                 "mailto:" + EMAIL_ADDRESS;
 
+
+            const emailText =
+                link.querySelector(
+                    "[data-email-text]"
+                );
+
+
+            if (emailText) {
+
+                emailText.textContent =
+                    EMAIL_ADDRESS;
+
+            }
+
         });
 
 
     /* =====================================================
-       GALLERY LIGHTBOX
-       ===================================================== */
-
-    const galleryItems =
-        document.querySelectorAll(".gallery-item");
-
-
-    const lightbox =
-        document.getElementById(
-            "galleryLightbox"
-        );
-
-
-    const lightboxImage =
-        document.getElementById(
-            "lightboxImage"
-        );
-
-
-    const lightboxTitle =
-        document.getElementById(
-            "lightboxTitle"
-        );
-
-
-    const closeButton =
-        document.querySelector(
-            ".gallery-close"
-        );
-
-
-    if (
-        galleryItems.length &&
-        lightbox &&
-        lightboxImage
-    ) {
-
-        galleryItems.forEach(function (item) {
-
-            item.addEventListener(
-                "click",
-                function () {
-
-                    const image =
-                        item.getAttribute(
-                            "data-image"
-                        ) ||
-                        item.querySelector("img")?.src;
-
-
-                    const title =
-                        item.getAttribute(
-                            "data-title"
-                        ) ||
-                        item.querySelector(
-                            ".gallery-caption"
-                        )?.textContent.trim() ||
-                        "ভূমি বন্ধু গ্যালারি";
-
-
-                    if (!image) {
-                        return;
-                    }
-
-
-                    lightboxImage.src =
-                        image;
-
-
-                    lightboxImage.alt =
-                        title;
-
-
-                    if (lightboxTitle) {
-
-                        lightboxTitle.textContent =
-                            title;
-
-                    }
-
-
-                    lightbox.classList.add(
-                        "active"
-                    );
-
-
-                    lightbox.setAttribute(
-                        "aria-hidden",
-                        "false"
-                    );
-
-
-                    document.body.classList.add(
-                        "lightbox-open"
-                    );
-
-                }
-            );
-
-        });
-
-
-        /* Close button */
-
-        if (closeButton) {
-
-            closeButton.addEventListener(
-                "click",
-                closeLightbox
-            );
-
-        }
-
-
-        /* Click outside */
-
-        lightbox.addEventListener(
-            "click",
-            function (event) {
-
-                if (
-                    event.target === lightbox
-                ) {
-
-                    closeLightbox();
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       CLOSE LIGHTBOX
-       ===================================================== */
-
-    function closeLightbox() {
-
-        if (!lightbox) {
-            return;
-        }
-
-
-        lightbox.classList.remove(
-            "active"
-        );
-
-
-        lightbox.setAttribute(
-            "aria-hidden",
-            "true"
-        );
-
-
-        document.body.classList.remove(
-            "lightbox-open"
-        );
-
-
-        setTimeout(function () {
-
-            if (lightboxImage) {
-
-                lightboxImage.src = "";
-
-            }
-
-        }, 250);
-
-    }
-
-
-    /* ESC KEY */
-
-    document.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (
-                event.key === "Escape" &&
-                lightbox &&
-                lightbox.classList.contains("active")
-            ) {
-
-                closeLightbox();
-
-            }
-
-        }
-    );
-
-
-    /* =====================================================
-       QUERY FORM → WHATSAPP
+       QUERY FORM
        ===================================================== */
 
     const queryForm =
@@ -341,9 +189,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 event.preventDefault();
 
 
-                /* -----------------------------------------
-                   FORM VALUES
-                   ----------------------------------------- */
+                /* GET VALUES */
 
                 const name =
                     document
@@ -401,9 +247,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     .trim() || "";
 
 
-                /* -----------------------------------------
+                /* =================================================
                    VALIDATION
-                   ----------------------------------------- */
+                   ================================================= */
+
 
                 if (!name) {
 
@@ -420,7 +267,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                if (!/^[0-9]{10}$/.test(mobile)) {
+                if (
+                    !/^[0-9]{10}$/.test(
+                        mobile
+                    )
+                ) {
 
                     alert(
                         "দয়া করে সঠিক ১০ সংখ্যার মোবাইল নম্বর দিন।"
@@ -465,9 +316,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                /* -----------------------------------------
-                   WHATSAPP MESSAGE
-                   ----------------------------------------- */
+                /* =================================================
+                   CREATE WHATSAPP MESSAGE
+                   ================================================= */
+
 
                 let message =
                     "নমস্কার, আমি ভূমি বন্ধু-তে একটি কুয়েরি পাঠাতে চাই।\n\n";
@@ -551,9 +403,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     "ধন্যবাদ।";
 
 
-                /* -----------------------------------------
+                /* =================================================
                    OPEN WHATSAPP
-                   ----------------------------------------- */
+                   ================================================= */
+
 
                 const whatsappURL =
                     "https://wa.me/" +
@@ -577,7 +430,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       MOBILE NUMBER
+       MOBILE NUMBER INPUT
+       ONLY NUMBERS + MAX 10 DIGITS
        ===================================================== */
 
     const mobileInput =
@@ -604,36 +458,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       FOOTER YEAR
-       ===================================================== */
-
-    const year =
-        document.getElementById(
-            "year"
-        );
-
-
-    if (year) {
-
-        year.textContent =
-            new Date().getFullYear();
-
-    }
-
-
-    /* =====================================================
        ACTIVE NAVIGATION
        ===================================================== */
 
     const sections =
         document.querySelectorAll(
-            "main section[id]"
+            "section[id]"
         );
 
 
     const navLinks =
         document.querySelectorAll(
-            ".nav a[href^='#']:not([href='#'])"
+            'header nav a[href^="#"]:not([data-wa]):not([data-whatsapp])'
         );
 
 
@@ -642,52 +478,52 @@ document.addEventListener("DOMContentLoaded", function () {
         let current = "";
 
         const position =
-            window.scrollY + 160;
+            window.scrollY + 120;
 
 
-        sections.forEach(function (section) {
+        sections.forEach(
+            function (section) {
 
-            const top =
-                section.offsetTop;
+                if (
+                    position >=
+                    section.offsetTop &&
+                    position <
+                    section.offsetTop +
+                    section.offsetHeight
+                ) {
 
+                    current =
+                        section.id;
 
-            const bottom =
-                top + section.offsetHeight;
-
-
-            if (
-                position >= top &&
-                position < bottom
-            ) {
-
-                current =
-                    section.id;
+                }
 
             }
-
-        });
-
-
-        navLinks.forEach(function (link) {
-
-            link.classList.remove(
-                "active"
-            );
+        );
 
 
-            if (
-                current &&
-                link.getAttribute("href") ===
-                "#" + current
-            ) {
+        navLinks.forEach(
+            function (link) {
 
-                link.classList.add(
+                link.classList.remove(
                     "active"
                 );
 
-            }
 
-        });
+                if (
+                    link.getAttribute(
+                        "href"
+                    ) ===
+                    "#" + current
+                ) {
+
+                    link.classList.add(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
 
     }
 
@@ -709,71 +545,5 @@ document.addEventListener("DOMContentLoaded", function () {
         updateActiveNavigation();
 
     }
-
-
-    /* =====================================================
-       SMOOTH SCROLL
-       ===================================================== */
-
-    document
-        .querySelectorAll(
-            'a[href^="#"]:not([href="#"])'
-        )
-        .forEach(function (link) {
-
-            link.addEventListener(
-                "click",
-                function (event) {
-
-                    const targetID =
-                        this.getAttribute(
-                            "href"
-                        );
-
-
-                    const target =
-                        document.querySelector(
-                            targetID
-                        );
-
-
-                    if (!target) {
-                        return;
-                    }
-
-
-                    event.preventDefault();
-
-
-                    const header =
-                        document.querySelector(
-                            ".site-header"
-                        );
-
-
-                    const headerHeight =
-                        header
-                            ? header.offsetHeight
-                            : 0;
-
-
-                    const targetPosition =
-                        target.getBoundingClientRect().top +
-                        window.pageYOffset -
-                        headerHeight;
-
-
-                    window.scrollTo({
-
-                        top: targetPosition,
-
-                        behavior: "smooth"
-
-                    });
-
-                }
-            );
-
-        });
 
 });
