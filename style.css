@@ -384,7 +384,7 @@ textarea {
    ========================================================= */
 
 .services {
-    background: #043009;
+    background: #f7faf9;
 }
 
 .service-grid {
@@ -394,7 +394,7 @@ textarea {
 }
 
 .card {
-    background: #fff;
+    background: #f7faf9;
     border: 1px solid #e2ebea;
     border-radius: 14px;
 }
