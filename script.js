@@ -1,57 +1,69 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    /* ================================
-       BASIC SETTINGS
-    ================================= */
+
+    /* =====================================================
+       BHUMI BANDHU CONFIGURATION
+       ===================================================== */
 
     const WHATSAPP_NUMBER = "918370833510";
+
     const PHONE_NUMBER = "+918370833510";
+
     const EMAIL_ADDRESS = "officework.bolpur@gmail.com";
 
 
-    /* ================================
+    /* =====================================================
        WHATSAPP BUTTONS
-    ================================= */
+       ===================================================== */
 
     const whatsappButtons =
         document.querySelectorAll(
-            "[data-whatsapp], [data-wa]"
+            "[data-wa], [data-whatsapp]"
         );
+
 
     whatsappButtons.forEach(function (button) {
 
-        button.addEventListener("click", function (event) {
+        button.addEventListener(
+            "click",
+            function (event) {
 
-            event.preventDefault();
+                event.preventDefault();
 
-            const message =
-                "নমস্কার, আমি ভূমি বন্ধু-এর পরিষেবা সম্পর্কে জানতে চাই।";
+                const message =
+                    "নমস্কার, আমি ভূমি বন্ধু-এর পরিষেবা সম্পর্কে জানতে চাই।";
 
-            const whatsappURL =
-                "https://wa.me/" +
-                WHATSAPP_NUMBER +
-                "?text=" +
-                encodeURIComponent(message);
 
-            window.open(
-                whatsappURL,
-                "_blank",
-                "noopener,noreferrer"
-            );
-        });
+                const url =
+                    "https://wa.me/" +
+                    WHATSAPP_NUMBER +
+                    "?text=" +
+                    encodeURIComponent(message);
+
+
+                window.open(
+                    url,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+
+            }
+        );
 
     });
 
 
-    /* ================================
+    /* =====================================================
        MOBILE MENU
-    ================================= */
+       ===================================================== */
 
     const menuToggle =
         document.querySelector(".menu-toggle");
 
+
     const navigation =
         document.querySelector(".nav");
+
 
     if (menuToggle && navigation) {
 
@@ -59,6 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "aria-expanded",
             "false"
         );
+
 
         menuToggle.setAttribute(
             "aria-label",
@@ -73,15 +86,23 @@ document.addEventListener("DOMContentLoaded", function () {
             function (event) {
 
                 event.preventDefault();
+
                 event.stopPropagation();
 
+
                 const isOpen =
-                    navigation.classList.toggle("open");
+                    navigation.classList.toggle(
+                        "open"
+                    );
+
 
                 menuToggle.setAttribute(
                     "aria-expanded",
-                    isOpen ? "true" : "false"
+                    isOpen
+                        ? "true"
+                        : "false"
                 );
+
 
                 menuToggle.setAttribute(
                     "aria-label",
@@ -89,11 +110,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         ? "মেনু বন্ধ করুন"
                         : "মেনু খুলুন"
                 );
+
             }
         );
 
 
-        /* CLOSE MENU AFTER CLICKING LINK */
+        /* CLOSE MENU AFTER CLICKING NAV LINK */
 
         navigation
             .querySelectorAll("a")
@@ -107,15 +129,18 @@ document.addEventListener("DOMContentLoaded", function () {
                             "open"
                         );
 
+
                         menuToggle.setAttribute(
                             "aria-expanded",
                             "false"
                         );
 
+
                         menuToggle.setAttribute(
                             "aria-label",
                             "মেনু খুলুন"
                         );
+
                     }
                 );
 
@@ -138,15 +163,18 @@ document.addEventListener("DOMContentLoaded", function () {
                         "open"
                     );
 
+
                     menuToggle.setAttribute(
                         "aria-expanded",
                         "false"
                     );
 
+
                     menuToggle.setAttribute(
                         "aria-label",
                         "মেনু খুলুন"
                     );
+
                 }
 
             }
@@ -155,9 +183,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* ================================
-       PHONE NUMBER
-    ================================= */
+    /* =====================================================
+       PHONE
+       ===================================================== */
 
     document
         .querySelectorAll("[data-phone]")
@@ -166,12 +194,26 @@ document.addEventListener("DOMContentLoaded", function () {
             link.href =
                 "tel:" + PHONE_NUMBER;
 
+
+            const phoneText =
+                link.querySelector(
+                    "[data-phone-text]"
+                );
+
+
+            if (phoneText) {
+
+                phoneText.textContent =
+                    "+91 8370833510";
+
+            }
+
         });
 
 
-    /* ================================
-       EMAIL ADDRESS
-    ================================= */
+    /* =====================================================
+       EMAIL
+       ===================================================== */
 
     document
         .querySelectorAll("[data-email]")
@@ -180,32 +222,50 @@ document.addEventListener("DOMContentLoaded", function () {
             link.href =
                 "mailto:" + EMAIL_ADDRESS;
 
+
+            const emailText =
+                link.querySelector(
+                    "[data-email-text]"
+                );
+
+
+            if (emailText) {
+
+                emailText.textContent =
+                    EMAIL_ADDRESS;
+
+            }
+
         });
 
 
-    /* ================================
+    /* =====================================================
        GALLERY LIGHTBOX
-    ================================= */
+       ===================================================== */
 
     const galleryItems =
         document.querySelectorAll(
             ".gallery-item"
         );
 
+
     const galleryLightbox =
         document.getElementById(
             "galleryLightbox"
         );
+
 
     const lightboxImage =
         document.getElementById(
             "lightboxImage"
         );
 
+
     const lightboxTitle =
         document.getElementById(
             "lightboxTitle"
         );
+
 
     const galleryClose =
         document.querySelector(
@@ -215,54 +275,65 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /* OPEN GALLERY */
 
-    galleryItems.forEach(function (item) {
+    galleryItems.forEach(
+        function (item) {
 
-        item.addEventListener(
-            "click",
-            function () {
+            item.addEventListener(
+                "click",
+                function () {
 
-                if (!galleryLightbox) {
-                    return;
-                }
+                    if (!galleryLightbox) {
+                        return;
+                    }
 
-                const image =
-                    item.getAttribute(
-                        "data-image"
+
+                    const image =
+                        item.getAttribute(
+                            "data-image"
+                        );
+
+
+                    const title =
+                        item.getAttribute(
+                            "data-title"
+                        ) || "";
+
+
+                    if (
+                        lightboxImage &&
+                        image
+                    ) {
+
+                        lightboxImage.src =
+                            image;
+
+                        lightboxImage.alt =
+                            title;
+
+                    }
+
+
+                    if (lightboxTitle) {
+
+                        lightboxTitle.textContent =
+                            title;
+
+                    }
+
+
+                    galleryLightbox.classList.add(
+                        "open"
                     );
 
-                const title =
-                    item.getAttribute(
-                        "data-title"
-                    ) || "";
 
-
-                if (lightboxImage && image) {
-
-                    lightboxImage.src = image;
-
-                    lightboxImage.alt = title;
+                    document.body.style.overflow =
+                        "hidden";
 
                 }
+            );
 
-
-                if (lightboxTitle) {
-
-                    lightboxTitle.textContent =
-                        title;
-
-                }
-
-
-                galleryLightbox.classList.add(
-                    "open"
-                );
-
-                document.body.style.overflow =
-                    "hidden";
-            }
-        );
-
-    });
+        }
+    );
 
 
     /* CLOSE GALLERY */
@@ -273,20 +344,27 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+
         galleryLightbox.classList.remove(
             "open"
         );
 
-        document.body.style.overflow = "";
+
+        document.body.style.overflow =
+            "";
+
 
         if (lightboxImage) {
 
-            lightboxImage.src = "";
+            lightboxImage.src =
+                "";
 
         }
 
     }
 
+
+    /* CLOSE BUTTON */
 
     if (galleryClose) {
 
@@ -298,7 +376,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* CLOSE WHEN CLICKING BACKGROUND */
+    /* CLOSE BY CLICKING BACKGROUND */
 
     if (galleryLightbox) {
 
@@ -328,7 +406,8 @@ document.addEventListener("DOMContentLoaded", function () {
         function (event) {
 
             if (
-                event.key === "Escape"
+                event.key ===
+                "Escape"
             ) {
 
                 closeGallery();
@@ -339,9 +418,9 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 
-    /* ================================
+    /* =====================================================
        QUERY FORM
-    ================================= */
+       ===================================================== */
 
     const queryForm =
         document.getElementById(
@@ -358,7 +437,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 event.preventDefault();
 
 
-                /* GET FORM VALUES */
+                /* GET VALUES */
 
                 const name =
                     document
@@ -416,7 +495,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         .trim() || "";
 
 
-                /* VALIDATION */
+                /* =================================================
+                   VALIDATION
+                   ================================================= */
+
 
                 if (!name) {
 
@@ -424,11 +506,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         "দয়া করে আপনার নাম লিখুন।"
                     );
 
+
                     document
                         .getElementById("name")
                         ?.focus();
 
+
                     return;
+
                 }
 
 
@@ -442,11 +527,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         "দয়া করে সঠিক ১০ সংখ্যার মোবাইল নম্বর দিন।"
                     );
 
+
                     document
                         .getElementById("mobile")
                         ?.focus();
 
+
                     return;
+
                 }
 
 
@@ -456,11 +544,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         "দয়া করে একটি পরিষেবা নির্বাচন করুন।"
                     );
 
+
                     document
                         .getElementById("service")
                         ?.focus();
 
+
                     return;
+
                 }
 
 
@@ -470,15 +561,21 @@ document.addEventListener("DOMContentLoaded", function () {
                         "দয়া করে আপনার সমস্যাটি বিস্তারিত লিখুন।"
                     );
 
+
                     document
                         .getElementById("details")
                         ?.focus();
 
+
                     return;
+
                 }
 
 
-                /* CREATE WHATSAPP MESSAGE */
+                /* =================================================
+                   CREATE WHATSAPP MESSAGE
+                   ================================================= */
+
 
                 let message =
                     "নমস্কার, আমি ভূমি বন্ধু-তে একটি কুয়েরি পাঠাতে চাই।\n\n";
@@ -487,8 +584,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 message +=
                     "━━━━━━━━━━━━━━━━━━\n";
 
+
                 message +=
                     "ভূমি বন্ধু - অনলাইন কুয়েরি\n";
+
 
                 message +=
                     "━━━━━━━━━━━━━━━━━━\n\n";
@@ -562,7 +661,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     "ধন্যবাদ।";
 
 
-                /* WHATSAPP URL */
+                /* =================================================
+                   OPEN WHATSAPP
+                   ================================================= */
 
                 const whatsappURL =
                     "https://wa.me/" +
@@ -572,8 +673,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         message
                     );
 
-
-                /* OPEN WHATSAPP */
 
                 window.open(
                     whatsappURL,
@@ -587,9 +686,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* ================================
+    /* =====================================================
        MOBILE NUMBER INPUT
-    ================================= */
+       ONLY NUMBERS + MAX 10 DIGITS
+       ===================================================== */
 
     const mobileInput =
         document.getElementById(
@@ -614,9 +714,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* ================================
+    /* =====================================================
        ACTIVE NAVIGATION
-    ================================= */
+       ===================================================== */
 
     const sections =
         document.querySelectorAll(
@@ -634,6 +734,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let current = "";
 
+
         const position =
             window.scrollY + 120;
 
@@ -641,17 +742,13 @@ document.addEventListener("DOMContentLoaded", function () {
         sections.forEach(
             function (section) {
 
-                const sectionTop =
-                    section.offsetTop;
-
-                const sectionBottom =
-                    sectionTop +
-                    section.offsetHeight;
-
-
                 if (
-                    position >= sectionTop &&
-                    position < sectionBottom
+                    position >=
+                    section.offsetTop &&
+
+                    position <
+                    section.offsetTop +
+                    section.offsetHeight
                 ) {
 
                     current =
@@ -671,14 +768,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
 
-                const href =
+                if (
                     link.getAttribute(
                         "href"
-                    );
-
-
-                if (
-                    href ===
+                    ) ===
                     "#" + current
                 ) {
 
@@ -713,9 +806,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* ================================
+    /* =====================================================
        FOOTER YEAR
-    ================================= */
+       ===================================================== */
 
     const yearElement =
         document.getElementById(
@@ -729,6 +822,5 @@ document.addEventListener("DOMContentLoaded", function () {
             new Date().getFullYear();
 
     }
-
 
 });
