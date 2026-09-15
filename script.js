@@ -11,14 +11,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /* =====================================================
        WHATSAPP BUTTONS
-       Supports:
-       data-whatsapp
-       data-wa
        ===================================================== */
 
     const whatsappButtons = document.querySelectorAll(
         "[data-whatsapp], [data-wa]"
     );
+
 
     whatsappButtons.forEach(function (button) {
 
@@ -29,14 +27,14 @@ document.addEventListener("DOMContentLoaded", function () {
             const message =
                 "নমস্কার, আমি ভূমি বন্ধু-এর পরিষেবা সম্পর্কে জানতে চাই।";
 
-            const whatsappURL =
+            const url =
                 "https://wa.me/" +
                 WHATSAPP_NUMBER +
                 "?text=" +
                 encodeURIComponent(message);
 
             window.open(
-                whatsappURL,
+                url,
                 "_blank",
                 "noopener,noreferrer"
             );
@@ -50,64 +48,83 @@ document.addEventListener("DOMContentLoaded", function () {
        MOBILE MENU
        ===================================================== */
 
-    const menuToggle = document.querySelector(".menu-toggle");
-    const navigation = document.querySelector(".nav");
+    const menuToggle =
+        document.querySelector(".menu-toggle");
+
+    const navigation =
+        document.querySelector(".nav");
+
 
     if (menuToggle && navigation) {
 
-        menuToggle.addEventListener("click", function () {
+        menuToggle.addEventListener(
+            "click",
+            function () {
 
-            const isOpen =
-                navigation.classList.toggle("open");
+                const isOpen =
+                    navigation.classList.toggle("open");
 
-            menuToggle.setAttribute(
-                "aria-expanded",
-                isOpen ? "true" : "false"
-            );
-
-        });
-
-
-        /* Close menu after clicking a navigation link */
-
-        navigation.querySelectorAll("a").forEach(function (link) {
-
-            link.addEventListener("click", function () {
-
-                navigation.classList.remove("open");
 
                 menuToggle.setAttribute(
                     "aria-expanded",
-                    "false"
+                    isOpen ? "true" : "false"
+                );
+
+            }
+        );
+
+
+        navigation
+            .querySelectorAll("a")
+            .forEach(function (link) {
+
+                link.addEventListener(
+                    "click",
+                    function () {
+
+                        navigation.classList.remove(
+                            "open"
+                        );
+
+                        menuToggle.setAttribute(
+                            "aria-expanded",
+                            "false"
+                        );
+
+                    }
                 );
 
             });
-
-        });
 
     }
 
 
     /* =====================================================
-       PHONE LINKS
+       PHONE
        ===================================================== */
 
-    document.querySelectorAll("[data-phone]").forEach(function (link) {
+    document
+        .querySelectorAll("[data-phone]")
+        .forEach(function (link) {
 
-        link.href = "tel:" + PHONE_NUMBER;
+            link.href =
+                "tel:" + PHONE_NUMBER;
 
-    });
+        });
 
 
     /* =====================================================
-       EMAIL LINKS
+       EMAIL
        ===================================================== */
 
-    document.querySelectorAll("[data-email]").forEach(function (link) {
+    document
+        .querySelectorAll("[data-email]")
+        .forEach(function (link) {
 
-        link.href = "mailto:" + EMAIL_ADDRESS;
+            link.href =
+                "mailto:" + EMAIL_ADDRESS;
 
-    });
+        });
 
 
     /* =====================================================
@@ -117,20 +134,30 @@ document.addEventListener("DOMContentLoaded", function () {
     const galleryItems =
         document.querySelectorAll(".gallery-item");
 
+
     const lightbox =
-        document.getElementById("galleryLightbox");
+        document.getElementById(
+            "galleryLightbox"
+        );
+
 
     const lightboxImage =
-        document.getElementById("lightboxImage");
+        document.getElementById(
+            "lightboxImage"
+        );
+
 
     const lightboxTitle =
-        document.getElementById("lightboxTitle");
+        document.getElementById(
+            "lightboxTitle"
+        );
+
 
     const closeButton =
-        document.querySelector(".gallery-close");
+        document.querySelector(
+            ".gallery-close"
+        );
 
-
-    /* Open Lightbox */
 
     if (
         galleryItems.length &&
@@ -140,39 +167,65 @@ document.addEventListener("DOMContentLoaded", function () {
 
         galleryItems.forEach(function (item) {
 
-            item.addEventListener("click", function () {
+            item.addEventListener(
+                "click",
+                function () {
 
-                const image =
-                    item.getAttribute("data-image") ||
-                    item.querySelector("img")?.getAttribute("src");
-
-                const title =
-                    item.getAttribute("data-title") ||
-                    item.querySelector(".gallery-caption")?.textContent.trim() ||
-                    "ভূমি বন্ধু গ্যালারি";
+                    const image =
+                        item.getAttribute(
+                            "data-image"
+                        ) ||
+                        item.querySelector("img")?.src;
 
 
-                if (!image) {
-                    return;
+                    const title =
+                        item.getAttribute(
+                            "data-title"
+                        ) ||
+                        item.querySelector(
+                            ".gallery-caption"
+                        )?.textContent.trim() ||
+                        "ভূমি বন্ধু গ্যালারি";
+
+
+                    if (!image) {
+                        return;
+                    }
+
+
+                    lightboxImage.src =
+                        image;
+
+
+                    lightboxImage.alt =
+                        title;
+
+
+                    if (lightboxTitle) {
+
+                        lightboxTitle.textContent =
+                            title;
+
+                    }
+
+
+                    lightbox.classList.add(
+                        "active"
+                    );
+
+
+                    lightbox.setAttribute(
+                        "aria-hidden",
+                        "false"
+                    );
+
+
+                    document.body.classList.add(
+                        "lightbox-open"
+                    );
+
                 }
-
-
-                lightboxImage.src = image;
-                lightboxImage.alt = title;
-
-
-                if (lightboxTitle) {
-                    lightboxTitle.textContent = title;
-                }
-
-
-                lightbox.classList.add("active");
-
-                document.body.classList.add(
-                    "lightbox-open"
-                );
-
-            });
+            );
 
         });
 
@@ -189,31 +242,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        /* Close by clicking outside image */
+        /* Click outside */
 
         lightbox.addEventListener(
             "click",
             function (event) {
 
-                if (event.target === lightbox) {
-
-                    closeLightbox();
-
-                }
-
-            }
-        );
-
-
-        /* Close with ESC key */
-
-        document.addEventListener(
-            "keydown",
-            function (event) {
-
                 if (
-                    event.key === "Escape" &&
-                    lightbox.classList.contains("active")
+                    event.target === lightbox
                 ) {
 
                     closeLightbox();
@@ -227,7 +263,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       CLOSE LIGHTBOX FUNCTION
+       CLOSE LIGHTBOX
        ===================================================== */
 
     function closeLightbox() {
@@ -236,7 +272,17 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        lightbox.classList.remove("active");
+
+        lightbox.classList.remove(
+            "active"
+        );
+
+
+        lightbox.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
 
         document.body.classList.remove(
             "lightbox-open"
@@ -246,12 +292,34 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(function () {
 
             if (lightboxImage) {
+
                 lightboxImage.src = "";
+
             }
 
-        }, 200);
+        }, 250);
 
     }
+
+
+    /* ESC KEY */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key === "Escape" &&
+                lightbox &&
+                lightbox.classList.contains("active")
+            ) {
+
+                closeLightbox();
+
+            }
+
+        }
+    );
 
 
     /* =====================================================
@@ -259,7 +327,9 @@ document.addEventListener("DOMContentLoaded", function () {
        ===================================================== */
 
     const queryForm =
-        document.getElementById("queryForm");
+        document.getElementById(
+            "queryForm"
+        );
 
 
     if (queryForm) {
@@ -272,59 +342,67 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 /* -----------------------------------------
-                   GET FORM VALUES
+                   FORM VALUES
                    ----------------------------------------- */
 
                 const name =
-                    document.getElementById("name")
+                    document
+                    .getElementById("name")
                     ?.value
                     .trim() || "";
 
 
                 const mobile =
-                    document.getElementById("mobile")
+                    document
+                    .getElementById("mobile")
                     ?.value
                     .trim() || "";
 
 
                 const service =
-                    document.getElementById("service")
+                    document
+                    .getElementById("service")
                     ?.value
                     .trim() || "";
 
 
                 const district =
-                    document.getElementById("district")
+                    document
+                    .getElementById("district")
                     ?.value
                     .trim() || "";
 
 
                 const mouza =
-                    document.getElementById("mouza")
+                    document
+                    .getElementById("mouza")
                     ?.value
                     .trim() || "";
 
 
                 const dag =
-                    document.getElementById("dag")
+                    document
+                    .getElementById("dag")
                     ?.value
                     .trim() || "";
 
 
                 const khatian =
-                    document.getElementById("khatian")
+                    document
+                    .getElementById("khatian")
                     ?.value
                     .trim() || "";
 
 
                 const details =
-                    document.getElementById("details")
+                    document
+                    .getElementById("details")
                     ?.value
                     .trim() || "";
 
 
                 /* -----------------------------------------
-                   NAME VALIDATION
+                   VALIDATION
                    ----------------------------------------- */
 
                 if (!name) {
@@ -342,10 +420,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                /* -----------------------------------------
-                   MOBILE VALIDATION
-                   ----------------------------------------- */
-
                 if (!/^[0-9]{10}$/.test(mobile)) {
 
                     alert(
@@ -361,10 +435,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                /* -----------------------------------------
-                   SERVICE VALIDATION
-                   ----------------------------------------- */
-
                 if (!service) {
 
                     alert(
@@ -379,10 +449,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 }
 
-
-                /* -----------------------------------------
-                   DETAILS VALIDATION
-                   ----------------------------------------- */
 
                 if (!details) {
 
@@ -400,7 +466,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 /* -----------------------------------------
-                   CREATE WHATSAPP MESSAGE
+                   WHATSAPP MESSAGE
                    ----------------------------------------- */
 
                 let message =
@@ -493,7 +559,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     "https://wa.me/" +
                     WHATSAPP_NUMBER +
                     "?text=" +
-                    encodeURIComponent(message);
+                    encodeURIComponent(
+                        message
+                    );
 
 
                 window.open(
@@ -509,12 +577,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       MOBILE NUMBER INPUT
-       Only numbers + maximum 10 digits
+       MOBILE NUMBER
        ===================================================== */
 
     const mobileInput =
-        document.getElementById("mobile");
+        document.getElementById(
+            "mobile"
+        );
 
 
     if (mobileInput) {
@@ -539,7 +608,9 @@ document.addEventListener("DOMContentLoaded", function () {
        ===================================================== */
 
     const year =
-        document.getElementById("year");
+        document.getElementById(
+            "year"
+        );
 
 
     if (year) {
@@ -560,72 +631,71 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
-    /* Only actual section links */
-
     const navLinks =
         document.querySelectorAll(
             ".nav a[href^='#']:not([href='#'])"
         );
 
 
+    function updateActiveNavigation() {
+
+        let current = "";
+
+        const position =
+            window.scrollY + 160;
+
+
+        sections.forEach(function (section) {
+
+            const top =
+                section.offsetTop;
+
+
+            const bottom =
+                top + section.offsetHeight;
+
+
+            if (
+                position >= top &&
+                position < bottom
+            ) {
+
+                current =
+                    section.id;
+
+            }
+
+        });
+
+
+        navLinks.forEach(function (link) {
+
+            link.classList.remove(
+                "active"
+            );
+
+
+            if (
+                current &&
+                link.getAttribute("href") ===
+                "#" + current
+            ) {
+
+                link.classList.add(
+                    "active"
+                );
+
+            }
+
+        });
+
+    }
+
+
     if (
         sections.length &&
         navLinks.length
     ) {
-
-        function updateActiveNavigation() {
-
-            let current = "";
-
-            const position =
-                window.scrollY + 160;
-
-
-            sections.forEach(function (section) {
-
-                const sectionTop =
-                    section.offsetTop;
-
-                const sectionBottom =
-                    sectionTop +
-                    section.offsetHeight;
-
-
-                if (
-                    position >= sectionTop &&
-                    position < sectionBottom
-                ) {
-
-                    current =
-                        section.id;
-
-                }
-
-            });
-
-
-            navLinks.forEach(function (link) {
-
-                link.classList.remove("active");
-
-
-                const href =
-                    link.getAttribute("href");
-
-
-                if (
-                    current &&
-                    href === "#" + current
-                ) {
-
-                    link.classList.add("active");
-
-                }
-
-            });
-
-        }
-
 
         window.addEventListener(
             "scroll",
@@ -636,8 +706,6 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
-        /* Run once when page loads */
-
         updateActiveNavigation();
 
     }
@@ -647,63 +715,65 @@ document.addEventListener("DOMContentLoaded", function () {
        SMOOTH SCROLL
        ===================================================== */
 
-    document.querySelectorAll(
-        'a[href^="#"]:not([href="#"])'
-    ).forEach(function (link) {
+    document
+        .querySelectorAll(
+            'a[href^="#"]:not([href="#"])'
+        )
+        .forEach(function (link) {
 
-        link.addEventListener(
-            "click",
-            function (event) {
+            link.addEventListener(
+                "click",
+                function (event) {
 
-                const targetID =
-                    this.getAttribute("href");
+                    const targetID =
+                        this.getAttribute(
+                            "href"
+                        );
 
-                const target =
-                    document.querySelector(targetID);
+
+                    const target =
+                        document.querySelector(
+                            targetID
+                        );
 
 
-                if (!target) {
-                    return;
+                    if (!target) {
+                        return;
+                    }
+
+
+                    event.preventDefault();
+
+
+                    const header =
+                        document.querySelector(
+                            ".site-header"
+                        );
+
+
+                    const headerHeight =
+                        header
+                            ? header.offsetHeight
+                            : 0;
+
+
+                    const targetPosition =
+                        target.getBoundingClientRect().top +
+                        window.pageYOffset -
+                        headerHeight;
+
+
+                    window.scrollTo({
+
+                        top: targetPosition,
+
+                        behavior: "smooth"
+
+                    });
+
                 }
+            );
 
-
-                event.preventDefault();
-
-
-                const header =
-                    document.querySelector(
-                        ".site-header"
-                    );
-
-
-                const headerHeight =
-                    header
-                        ? header.offsetHeight
-                        : 0;
-
-
-                const targetPosition =
-                    target.getBoundingClientRect().top +
-                    window.pageYOffset -
-                    headerHeight;
-
-
-                window.scrollTo({
-
-                    top: targetPosition,
-
-                    behavior: "smooth"
-
-                });
-
-            }
-        );
-
-    });
-
-
-    /* =====================================================
-       END OF BHUMI BANDHU SCRIPT
-       ===================================================== */
+        });
 
 });
