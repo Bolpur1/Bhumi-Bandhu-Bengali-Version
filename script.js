@@ -2,144 +2,260 @@
    BHUMI BANDHU - MAIN JAVASCRIPT
    ========================================================= */
 
-
-/* =========================================================
-   1. WHATSAPP CONFIGURATION
-   =========================================================
-   এখানে আপনার WhatsApp নম্বর দিন।
-
-   উদাহরণ:
-   919876543210
-
-   + চিহ্ন দেবেন না
-   space দেবেন না
-   শুরুতে 0 দেবেন না
-   ========================================================= */
-
-const BB_CONFIG = {
-    whatsapp: "919XXXXXXXXX"
-};
-
-
-/* =========================================================
-   2. PAGE LOAD
-   ========================================================= */
-
 document.addEventListener("DOMContentLoaded", function () {
 
+    /* ---------------------------------------------------------
+       1. CONFIGURATION
+       --------------------------------------------------------- */
 
-    /* =====================================================
+    const BB_CONFIG = {
+        whatsapp: "918370833510",
+        phone: "+918370833510",
+        email: "officework.bolpur@gmail.com"
+    };
+
+
+    /* ---------------------------------------------------------
+       2. MOBILE MENU
+       --------------------------------------------------------- */
+
+    const menuToggle = document.querySelector(".menu-toggle");
+    const nav = document.querySelector(".nav");
+
+    if (menuToggle && nav) {
+
+        menuToggle.addEventListener("click", function () {
+
+            const isOpen = nav.classList.toggle("open");
+
+            menuToggle.setAttribute(
+                "aria-expanded",
+                isOpen ? "true" : "false"
+            );
+
+        });
+
+
+        // Mobile menu থেকে link click করলে menu বন্ধ হবে
+        nav.querySelectorAll("a").forEach(function (link) {
+
+            link.addEventListener("click", function () {
+
+                nav.classList.remove("open");
+
+                menuToggle.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+            });
+
+        });
+
+    }
+
+
+    /* ---------------------------------------------------------
        3. WHATSAPP BUTTONS
-       ===================================================== */
+       --------------------------------------------------------- */
 
-    document.querySelectorAll("[data-wa]").forEach(function (button) {
+    document.querySelectorAll("[data-whatsapp]").forEach(function (element) {
 
-        button.addEventListener("click", function (e) {
+        element.addEventListener("click", function (event) {
 
-            e.preventDefault();
+            event.preventDefault();
 
-            const number = BB_CONFIG.whatsapp;
+            const message =
+                element.getAttribute("data-message") ||
+                "নমস্কার, আমি ভূমি বন্ধু-এর পরিষেবা সম্পর্কে জানতে চাই।";
 
-            if (!number || number.includes("X")) {
-                alert("অনুগ্রহ করে প্রথমে script.js ফাইলে সঠিক WhatsApp নম্বর দিন।");
-                return;
-            }
+            const whatsappURL =
+                "https://wa.me/" +
+                BB_CONFIG.whatsapp +
+                "?text=" +
+                encodeURIComponent(message);
 
-            const url = "https://wa.me/" + number;
+            window.open(whatsappURL, "_blank");
 
-            window.open(url, "_blank");
         });
 
     });
 
 
-    /* =====================================================
-       4. QUERY FORM
-       ===================================================== */
+    /* ---------------------------------------------------------
+       4. PHONE LINKS
+       --------------------------------------------------------- */
 
-    const form = document.getElementById("queryForm");
+    document.querySelectorAll("[data-phone]").forEach(function (element) {
 
-    if (form) {
+        element.setAttribute(
+            "href",
+            "tel:" + BB_CONFIG.phone
+        );
 
-        form.addEventListener("submit", function (e) {
-
-            e.preventDefault();
-
-            const d = new FormData(form);
-
-            /* ---------------------------------------------
-               Mobile Number
-               --------------------------------------------- */
-
-            const mobile = String(
-                d.get("mobile") || ""
-            ).replace(/\D/g, "");
+    });
 
 
-            /* ---------------------------------------------
-               Mobile Number Validation
-               --------------------------------------------- */
+    /* ---------------------------------------------------------
+       5. EMAIL LINKS
+       --------------------------------------------------------- */
 
-            if (!/^[6-9]\d{9}$/.test(mobile)) {
+    document.querySelectorAll("[data-email]").forEach(function (element) {
+
+        element.setAttribute(
+            "href",
+            "mailto:" + BB_CONFIG.email
+        );
+
+    });
+
+
+    /* ---------------------------------------------------------
+       6. QUERY FORM
+       --------------------------------------------------------- */
+
+    const queryForm = document.getElementById("queryForm");
+
+    if (queryForm) {
+
+        queryForm.addEventListener("submit", function (event) {
+
+            event.preventDefault();
+
+
+            // Get form values
+            const name =
+                document.getElementById("name")?.value.trim() || "";
+
+            const mobile =
+                document.getElementById("mobile")?.value.trim() || "";
+
+            const service =
+                document.getElementById("service")?.value.trim() || "";
+
+            const district =
+                document.getElementById("district")?.value.trim() || "";
+
+            const mouza =
+                document.getElementById("mouza")?.value.trim() || "";
+
+            const dag =
+                document.getElementById("dag")?.value.trim() || "";
+
+            const khatian =
+                document.getElementById("khatian")?.value.trim() || "";
+
+            const details =
+                document.getElementById("details")?.value.trim() || "";
+
+
+            /* -------------------------------------------------
+               VALIDATION
+               ------------------------------------------------- */
+
+            if (name === "") {
+                alert("অনুগ্রহ করে আপনার নাম লিখুন।");
+                document.getElementById("name")?.focus();
+                return;
+            }
+
+
+            // Indian mobile number validation
+            if (!/^[6-9][0-9]{9}$/.test(mobile)) {
 
                 alert(
-                    "দয়া করে সঠিক ১০ সংখ্যার মোবাইল নম্বর দিন।"
+                    "সঠিক ১০ সংখ্যার মোবাইল নম্বর দিন।\n" +
+                    "উদাহরণ: 8370833510"
                 );
+
+                document.getElementById("mobile")?.focus();
 
                 return;
             }
 
 
-            /* ---------------------------------------------
-               WhatsApp Number Check
-               --------------------------------------------- */
+            if (service === "") {
 
-            if (
-                !BB_CONFIG.whatsapp ||
-                BB_CONFIG.whatsapp.includes("X")
-            ) {
+                alert("অনুগ্রহ করে পরিষেবা নির্বাচন করুন।");
 
-                alert(
-                    "প্রথমে script.js ফাইলে আপনার WhatsApp নম্বর দিন।"
-                );
+                document.getElementById("service")?.focus();
 
                 return;
             }
 
 
-            /* =================================================
-               5. WHATSAPP MESSAGE
-               ================================================= */
+            if (details === "") {
 
-            const message =
-`*ভূমি বন্ধু — নতুন কুয়েরি*
-━━━━━━━━━━━━━━━━━━━━
+                alert("অনুগ্রহ করে আপনার সমস্যার বিস্তারিত লিখুন।");
 
-*নাম:* ${d.get("name") || "দেওয়া হয়নি"}
+                document.getElementById("details")?.focus();
 
-*মোবাইল:* ${mobile}
-
-*পরিষেবা:* ${d.get("service") || "দেওয়া হয়নি"}
-
-*জেলা:* ${d.get("district") || "দেওয়া হয়নি"}
-
-*মৌজা:* ${d.get("mouza") || "দেওয়া হয়নি"}
-
-*দাগ নম্বর:* ${d.get("dag") || "দেওয়া হয়নি"}
-
-*খতিয়ান নম্বর:* ${d.get("khatian") || "দেওয়া হয়নি"}
-
-*বিস্তারিত:*
-${d.get("details") || "দেওয়া হয়নি"}
-
-━━━━━━━━━━━━━━━━━━━━
-*Bhumi Bandhu*
-Land & Property Assistance`;
+                return;
+            }
 
 
-            /* =================================================
-               6. OPEN WHATSAPP
-               ================================================= */
+            /* -------------------------------------------------
+               CREATE WHATSAPP MESSAGE
+               ------------------------------------------------- */
+
+            let message = "";
+
+            message += "নমস্কার, ভূমি বন্ধু-এর কাছে একটি কুয়েরি আছে।";
+            message += "\n\n";
+
+            message += "━━━━━━━━━━━━━━━━━━";
+            message += "\n";
+            message += "🏠 ভূমি বন্ধু - কুয়েরি";
+            message += "\n";
+            message += "━━━━━━━━━━━━━━━━━━";
+            message += "\n\n";
+
+            message += "👤 নাম: " + name;
+            message += "\n";
+
+            message += "📱 মোবাইল: " + mobile;
+            message += "\n";
+
+            message += "📋 পরিষেবা: " + service;
+            message += "\n";
+
+
+            if (district !== "") {
+                message += "📍 জেলা: " + district;
+                message += "\n";
+            }
+
+
+            if (mouza !== "") {
+                message += "🏘️ মৌজা: " + mouza;
+                message += "\n";
+            }
+
+
+            if (dag !== "") {
+                message += "📄 দাগ নম্বর: " + dag;
+                message += "\n";
+            }
+
+
+            if (khatian !== "") {
+                message += "📑 খতিয়ান নম্বর: " + khatian;
+                message += "\n";
+            }
+
+
+            message += "\n";
+            message += "📝 বিস্তারিত:";
+            message += "\n";
+            message += details;
+            message += "\n\n";
+
+            message += "ধন্যবাদ।";
+
+
+            /* -------------------------------------------------
+               OPEN WHATSAPP
+               ------------------------------------------------- */
 
             const whatsappURL =
                 "https://wa.me/" +
@@ -148,111 +264,117 @@ Land & Property Assistance`;
                 encodeURIComponent(message);
 
 
-            window.open(
-                whatsappURL,
-                "_blank"
-            );
+            window.open(whatsappURL, "_blank");
+
+
+            /* -------------------------------------------------
+               OPTIONAL FORM RESET
+               ------------------------------------------------- */
+
+            queryForm.reset();
 
         });
 
     }
 
 
-    /* =====================================================
+    /* ---------------------------------------------------------
        7. GALLERY LIGHTBOX
-       ===================================================== */
+       --------------------------------------------------------- */
 
-    const box = document.getElementById("galleryLightbox");
+    const galleryLightbox =
+        document.getElementById("galleryLightbox");
 
-    const image = document.getElementById("lightboxImage");
+    const lightboxImage =
+        document.getElementById("lightboxImage");
 
-    const title = document.getElementById("lightboxTitle");
+    const lightboxTitle =
+        document.getElementById("lightboxTitle");
+
+    const galleryClose =
+        document.querySelector(".gallery-close");
 
 
-    /* ---------------------------------------------
-       Gallery exists?
-       --------------------------------------------- */
+    // Gallery items
+    document.querySelectorAll(".gallery-item").forEach(function (item) {
 
-    if (box && image && title) {
+        item.addEventListener("click", function () {
 
-        /* -----------------------------------------
-           Open Gallery Image
-           ----------------------------------------- */
+            const image =
+                item.getAttribute("data-image");
 
-        document
-            .querySelectorAll(".gallery-item")
-            .forEach(function (item) {
+            const title =
+                item.getAttribute("data-title") ||
+                item.querySelector("h3")?.textContent ||
+                "ভূমি বন্ধু";
 
-                item.addEventListener(
-                    "click",
-                    function () {
 
-                        image.src =
-                            item.dataset.image;
+            if (galleryLightbox) {
 
-                        title.textContent =
-                            item.dataset.title;
+                galleryLightbox.classList.add("active");
 
-                        box.classList.add("open");
-
-                    }
+                galleryLightbox.setAttribute(
+                    "aria-hidden",
+                    "false"
                 );
 
-            });
+            }
 
 
-        /* -----------------------------------------
-           Close Button
-           ----------------------------------------- */
-
-        const closeButton =
-            document.querySelector(".gallery-close");
+            if (lightboxImage && image) {
+                lightboxImage.src = image;
+                lightboxImage.alt = title;
+            }
 
 
-        if (closeButton) {
+            if (lightboxTitle) {
+                lightboxTitle.textContent = title;
+            }
 
-            closeButton.addEventListener(
-                "click",
-                function () {
+        });
 
-                    box.classList.remove("open");
+    });
 
-                }
+
+    /* ---------------------------------------------------------
+       8. CLOSE LIGHTBOX
+       --------------------------------------------------------- */
+
+    function closeLightbox() {
+
+        if (galleryLightbox) {
+
+            galleryLightbox.classList.remove("active");
+
+            galleryLightbox.setAttribute(
+                "aria-hidden",
+                "true"
             );
 
         }
 
+    }
 
-        /* -----------------------------------------
-           Click Outside Image = Close
-           ----------------------------------------- */
 
-        box.addEventListener(
+    if (galleryClose) {
+
+        galleryClose.addEventListener(
             "click",
-            function (e) {
-
-                if (e.target === box) {
-
-                    box.classList.remove("open");
-
-                }
-
-            }
+            closeLightbox
         );
 
+    }
 
-        /* -----------------------------------------
-           ESC Key = Close
-           ----------------------------------------- */
 
-        document.addEventListener(
-            "keydown",
-            function (e) {
+    // Click outside image
+    if (galleryLightbox) {
 
-                if (e.key === "Escape") {
+        galleryLightbox.addEventListener(
+            "click",
+            function (event) {
 
-                    box.classList.remove("open");
-
+                if (event.target === galleryLightbox) {
+                    closeLightbox();
                 }
 
             }
@@ -261,94 +383,157 @@ Land & Property Assistance`;
     }
 
 
-    /* =====================================================
-       8. MOBILE MENU
-       ===================================================== */
+    // ESC key
+    document.addEventListener(
+        "keydown",
+        function (event) {
 
-    const menuButton =
-        document.querySelector(".menu-toggle");
-
-    const navigation =
-        document.querySelector(".nav-links");
-
-
-    if (menuButton && navigation) {
-
-        menuButton.addEventListener(
-            "click",
-            function () {
-
-                navigation.classList.toggle("active");
-
+            if (event.key === "Escape") {
+                closeLightbox();
             }
-        );
+
+        }
+    );
 
 
-        /* ---------------------------------------------
-           Close Mobile Menu After Clicking Link
-           --------------------------------------------- */
-
-        navigation
-            .querySelectorAll("a")
-            .forEach(function (link) {
-
-                link.addEventListener(
-                    "click",
-                    function () {
-
-                        navigation.classList.remove(
-                            "active"
-                        );
-
-                    }
-                );
-
-            });
-
-    }
-
-
-    /* =====================================================
+    /* ---------------------------------------------------------
        9. SMOOTH SCROLL
-       ===================================================== */
+       --------------------------------------------------------- */
 
-    document
-        .querySelectorAll('a[href^="#"]')
-        .forEach(function (link) {
+    document.querySelectorAll('a[href^="#"]').forEach(function (link) {
 
-            link.addEventListener(
-                "click",
-                function (e) {
+        link.addEventListener("click", function (event) {
 
-                    const targetID =
-                        this.getAttribute("href");
+            const targetID =
+                link.getAttribute("href");
 
-                    if (
-                        targetID &&
-                        targetID !== "#"
-                    ) {
+            if (!targetID || targetID === "#") {
+                return;
+            }
 
-                        const target =
-                            document.querySelector(
-                                targetID
-                            );
 
-                        if (target) {
+            const target =
+                document.querySelector(targetID);
 
-                            e.preventDefault();
+            if (target) {
 
-                            target.scrollIntoView({
-                                behavior: "smooth"
-                            });
+                event.preventDefault();
 
-                        }
+                target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
 
-                    }
-
-                }
-            );
+            }
 
         });
 
+    });
+
+
+    /* ---------------------------------------------------------
+       10. CURRENT YEAR
+       --------------------------------------------------------- */
+
+    const yearElements =
+        document.querySelectorAll("[data-year]");
+
+    yearElements.forEach(function (element) {
+
+        element.textContent =
+            new Date().getFullYear();
+
+    });
+
+
+    /* ---------------------------------------------------------
+       11. FORM MOBILE NUMBER - ONLY DIGITS
+       --------------------------------------------------------- */
+
+    const mobileInput =
+        document.getElementById("mobile");
+
+    if (mobileInput) {
+
+        mobileInput.addEventListener(
+            "input",
+            function () {
+
+                this.value =
+                    this.value.replace(/\D/g, "").slice(0, 10);
+
+            }
+        );
+
+    }
+
+
+    /* ---------------------------------------------------------
+       12. ACTIVE NAVIGATION ON SCROLL
+       --------------------------------------------------------- */
+
+    const sections =
+        document.querySelectorAll("section[id]");
+
+    const navLinks =
+        document.querySelectorAll(".nav a[href^='#']");
+
+
+    function updateActiveNav() {
+
+        let currentSection = "";
+
+        sections.forEach(function (section) {
+
+            const sectionTop =
+                section.offsetTop - 150;
+
+            const sectionHeight =
+                section.offsetHeight;
+
+            if (
+                window.scrollY >= sectionTop &&
+                window.scrollY < sectionTop + sectionHeight
+            ) {
+
+                currentSection =
+                    section.getAttribute("id");
+
+            }
+
+        });
+
+
+        navLinks.forEach(function (link) {
+
+            link.classList.remove("active");
+
+            if (
+                link.getAttribute("href") ===
+                "#" + currentSection
+            ) {
+
+                link.classList.add("active");
+
+            }
+
+        });
+
+    }
+
+
+    window.addEventListener(
+        "scroll",
+        updateActiveNav
+    );
+
+
+    /* ---------------------------------------------------------
+       13. CONSOLE MESSAGE
+       --------------------------------------------------------- */
+
+    console.log(
+        "Bhumi Bandhu website JavaScript loaded successfully."
+    );
 
 });
