@@ -254,10 +254,9 @@ textarea {
 }
 
 .eyebrow {
-    margin: 0 0 14px;
-    font-size: 16px;
-    line-height: 1.6;
-    letter-spacing: 0.5px;
+    margin: 0 0 10px;
+    font-size: 12px;
+    letter-spacing: 2px;
     font-weight: 800;
 }
 
@@ -1122,7 +1121,6 @@ code {
 
 }
 
-}
     .container {
         width: min(92%, 1160px);
     }
