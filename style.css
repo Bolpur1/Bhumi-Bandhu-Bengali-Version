@@ -256,7 +256,7 @@ textarea {
 .eyebrow {
     margin: 0 0 10px;
     font-size: 12px;
-    letter-spacing: 2px;
+    letter-spacing: 0px;
     font-weight: 800;
 }
 
