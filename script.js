@@ -11,149 +11,155 @@ const EMAIL_ADDRESS = "officework.bolpur@gmail.com";
 
 
 /* =====================================================
-   COMMON WHATSAPP MESSAGE
+   WHATSAPP
    ===================================================== */
 
-const defaultWhatsAppMessage =
-    "নমস্কার, আমি ভূমি বন্ধু-এর পরিষেবা সম্পর্কে জানতে চাই।";
+const whatsappButtons =
+    document.querySelectorAll(
+        "[data-whatsapp], [data-wa]"
+    );
 
-
-/* =====================================================
-   WHATSAPP BUTTONS
-   Works with:
-   data-whatsapp
-   data-wa
-   ===================================================== */
-
-const whatsappButtons = document.querySelectorAll(
-    "[data-whatsapp], [data-wa]"
-);
 
 whatsappButtons.forEach(function (button) {
 
-    button.addEventListener("click", function (event) {
+    button.addEventListener(
+        "click",
+        function (event) {
 
-        event.preventDefault();
+            event.preventDefault();
 
-        const whatsappURL =
-            "https://wa.me/" +
-            WHATSAPP_NUMBER +
-            "?text=" +
-            encodeURIComponent(defaultWhatsAppMessage);
+            const message =
+                "নমস্কার, আমি ভূমি বন্ধু-এর পরিষেবা সম্পর্কে জানতে চাই।";
 
-        window.open(
-            whatsappURL,
-            "_blank",
-            "noopener,noreferrer"
-        );
 
-    });
+            const url =
+                "https://wa.me/" +
+                WHATSAPP_NUMBER +
+                "?text=" +
+                encodeURIComponent(message);
+
+
+            window.open(
+                url,
+                "_blank",
+                "noopener,noreferrer"
+            );
+
+        }
+    );
 
 });
 
 
 /* =====================================================
    MOBILE MENU
-   Matches:
-   .menu-toggle
-   .nav
    ===================================================== */
 
-const menuToggle = document.querySelector(".menu-toggle");
-const navigation = document.querySelector(".nav");
+const menuToggle =
+    document.querySelector(".menu-toggle");
+
+const navigation =
+    document.querySelector(".nav");
+
 
 if (menuToggle && navigation) {
 
-    menuToggle.addEventListener("click", function () {
+    menuToggle.addEventListener(
+        "click",
+        function () {
 
-        const isOpen =
-            navigation.classList.toggle("open");
+            const isOpen =
+                navigation.classList.toggle("open");
 
-        menuToggle.setAttribute(
-            "aria-expanded",
-            isOpen ? "true" : "false"
-        );
-
-    });
-
-
-    /* Close menu after clicking any navigation link */
-
-    const navLinks =
-        navigation.querySelectorAll("a");
-
-    navLinks.forEach(function (link) {
-
-        link.addEventListener("click", function () {
-
-            navigation.classList.remove("open");
 
             menuToggle.setAttribute(
                 "aria-expanded",
-                "false"
+                isOpen ? "true" : "false"
+            );
+
+        }
+    );
+
+
+    navigation
+        .querySelectorAll("a")
+        .forEach(function (link) {
+
+            link.addEventListener(
+                "click",
+                function () {
+
+                    navigation.classList.remove(
+                        "open"
+                    );
+
+                    menuToggle.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                }
             );
 
         });
-
-    });
 
 }
 
 
 /* =====================================================
-   PHONE LINKS
+   PHONE
    ===================================================== */
 
-const phoneLinks =
-    document.querySelectorAll("[data-phone]");
+document
+    .querySelectorAll("[data-phone]")
+    .forEach(function (link) {
 
-phoneLinks.forEach(function (link) {
+        link.href =
+            "tel:" + PHONE_NUMBER;
 
-    link.href =
-        "tel:" + PHONE_NUMBER;
-
-});
+    });
 
 
 /* =====================================================
-   EMAIL LINKS
+   EMAIL
    ===================================================== */
 
-const emailLinks =
-    document.querySelectorAll("[data-email]");
+document
+    .querySelectorAll("[data-email]")
+    .forEach(function (link) {
 
-emailLinks.forEach(function (link) {
+        link.href =
+            "mailto:" + EMAIL_ADDRESS;
 
-    link.href =
-        "mailto:" + EMAIL_ADDRESS;
-
-});
+    });
 
 
 /* =====================================================
    GALLERY LIGHTBOX
-   Matches current HTML:
-   .gallery-item
-   #galleryLightbox
-   #lightboxImage
-   #lightboxTitle
-   .gallery-close
    ===================================================== */
 
 const galleryItems =
     document.querySelectorAll(".gallery-item");
 
 const lightbox =
-    document.getElementById("galleryLightbox");
+    document.getElementById(
+        "galleryLightbox"
+    );
 
 const lightboxImage =
-    document.getElementById("lightboxImage");
+    document.getElementById(
+        "lightboxImage"
+    );
 
 const lightboxTitle =
-    document.getElementById("lightboxTitle");
+    document.getElementById(
+        "lightboxTitle"
+    );
 
 const closeButton =
-    document.querySelector(".gallery-close");
+    document.querySelector(
+        ".gallery-close"
+    );
 
 
 if (
@@ -165,42 +171,49 @@ if (
 
     galleryItems.forEach(function (item) {
 
-        item.addEventListener("click", function () {
+        item.addEventListener(
+            "click",
+            function () {
 
-            const image =
-                item.getAttribute("data-image");
+                const image =
+                    item.getAttribute(
+                        "data-image"
+                    );
 
-            const title =
-                item.getAttribute("data-title");
+                const title =
+                    item.getAttribute(
+                        "data-title"
+                    );
 
 
-            if (!image) {
-                return;
+                if (!image) {
+                    return;
+                }
+
+
+                lightboxImage.src =
+                    image;
+
+                lightboxImage.alt =
+                    title || "ভূমি বন্ধু গ্যালারি";
+
+                lightboxTitle.textContent =
+                    title || "";
+
+
+                lightbox.classList.add(
+                    "active"
+                );
+
+                document.body.classList.add(
+                    "lightbox-open"
+                );
+
             }
-
-
-            lightboxImage.src = image;
-
-            lightboxImage.alt =
-                title || "ভূমি বন্ধু গ্যালারি";
-
-
-            lightboxTitle.textContent =
-                title || "";
-
-
-            lightbox.classList.add("active");
-
-            document.body.classList.add(
-                "lightbox-open"
-            );
-
-        });
+        );
 
     });
 
-
-    /* Close button */
 
     if (closeButton) {
 
@@ -212,13 +225,13 @@ if (
     }
 
 
-    /* Click outside image */
-
     lightbox.addEventListener(
         "click",
         function (event) {
 
-            if (event.target === lightbox) {
+            if (
+                event.target === lightbox
+            ) {
 
                 closeLightbox();
 
@@ -228,15 +241,15 @@ if (
     );
 
 
-    /* ESC key */
-
     document.addEventListener(
         "keydown",
         function (event) {
 
             if (
                 event.key === "Escape" &&
-                lightbox.classList.contains("active")
+                lightbox.classList.contains(
+                    "active"
+                )
             ) {
 
                 closeLightbox();
@@ -255,11 +268,15 @@ function closeLightbox() {
         return;
     }
 
-    lightbox.classList.remove("active");
+
+    lightbox.classList.remove(
+        "active"
+    );
 
     document.body.classList.remove(
         "lightbox-open"
     );
+
 
     setTimeout(function () {
 
@@ -276,11 +293,12 @@ function closeLightbox() {
 
 /* =====================================================
    QUERY FORM
-   Sends complete form information to WhatsApp
    ===================================================== */
 
 const queryForm =
-    document.getElementById("queryForm");
+    document.getElementById(
+        "queryForm"
+    );
 
 
 if (queryForm) {
@@ -292,19 +310,359 @@ if (queryForm) {
             event.preventDefault();
 
 
-            /* -----------------------------------------
-               Get form values
-               ----------------------------------------- */
-
             const name =
-                document.getElementById("name")?.value.trim() || "";
+                document
+                .getElementById("name")
+                ?.value
+                .trim() || "";
+
 
             const mobile =
-                document.getElementById("mobile")?.value.trim() || "";
+                document
+                .getElementById("mobile")
+                ?.value
+                .trim() || "";
+
 
             const service =
-                document.getElementById("service")?.value.trim() || "";
+                document
+                .getElementById("service")
+                ?.value
+                .trim() || "";
+
 
             const district =
-                document.getElementById("district
+                document
+                .getElementById("district")
+                ?.value
+                .trim() || "";
+
+
+            const mouza =
+                document
+                .getElementById("mouza")
+                ?.value
+                .trim() || "";
+
+
+            const dag =
+                document
+                .getElementById("dag")
+                ?.value
+                .trim() || "";
+
+
+            const khatian =
+                document
+                .getElementById("khatian")
+                ?.value
+                .trim() || "";
+
+
+            const details =
+                document
+                .getElementById("details")
+                ?.value
+                .trim() || "";
+
+
+            /* VALIDATION */
+
+            if (!name) {
+
+                alert(
+                    "দয়া করে আপনার নাম লিখুন।"
+                );
+
+                document
+                    .getElementById("name")
+                    ?.focus();
+
+                return;
+
+            }
+
+
+            if (
+                !/^[0-9]{10}$/.test(
+                    mobile
+                )
+            ) {
+
+                alert(
+                    "দয়া করে সঠিক ১০ সংখ্যার মোবাইল নম্বর দিন।"
+                );
+
+                document
+                    .getElementById("mobile")
+                    ?.focus();
+
+                return;
+
+            }
+
+
+            if (!service) {
+
+                alert(
+                    "দয়া করে একটি পরিষেবা নির্বাচন করুন।"
+                );
+
+                document
+                    .getElementById("service")
+                    ?.focus();
+
+                return;
+
+            }
+
+
+            if (!details) {
+
+                alert(
+                    "দয়া করে আপনার সমস্যাটি বিস্তারিত লিখুন।"
+                );
+
+                document
+                    .getElementById("details")
+                    ?.focus();
+
+                return;
+
+            }
+
+
+            /* CREATE MESSAGE */
+
+            let message =
+                "নমস্কার, আমি ভূমি বন্ধু-তে একটি কুয়েরি পাঠাতে চাই।\n\n";
+
+
+            message +=
+                "━━━━━━━━━━━━━━━━━━\n";
+
+            message +=
+                "ভূমি বন্ধু - অনলাইন কুয়েরি\n";
+
+            message +=
+                "━━━━━━━━━━━━━━━━━━\n\n";
+
+
+            message +=
+                "নাম: " +
+                name +
+                "\n";
+
+
+            message +=
+                "মোবাইল: " +
+                mobile +
+                "\n";
+
+
+            message +=
+                "পরিষেবা: " +
+                service +
+                "\n";
+
+
+            if (district) {
+
+                message +=
+                    "জেলা: " +
+                    district +
+                    "\n";
+
+            }
+
+
+            if (mouza) {
+
+                message +=
+                    "মৌজা: " +
+                    mouza +
+                    "\n";
+
+            }
+
+
+            if (dag) {
+
+                message +=
+                    "দাগ নম্বর: " +
+                    dag +
+                    "\n";
+
+            }
+
+
+            if (khatian) {
+
+                message +=
+                    "খতিয়ান নম্বর: " +
+                    khatian +
+                    "\n";
+
+            }
+
+
+            message +=
+                "\nবিস্তারিত:\n" +
+                details +
+                "\n\n";
+
+
+            message +=
+                "ধন্যবাদ।";
+
+
+            /* OPEN WHATSAPP */
+
+            const whatsappURL =
+                "https://wa.me/" +
+                WHATSAPP_NUMBER +
+                "?text=" +
+                encodeURIComponent(
+                    message
+                );
+
+
+            window.open(
+                whatsappURL,
+                "_blank",
+                "noopener,noreferrer"
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   MOBILE NUMBER
+   ===================================================== */
+
+const mobileInput =
+    document.getElementById(
+        "mobile"
+    );
+
+
+if (mobileInput) {
+
+    mobileInput.addEventListener(
+        "input",
+        function () {
+
+            this.value =
+                this.value
+                .replace(/\D/g, "")
+                .slice(0, 10);
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   FOOTER YEAR
+   ===================================================== */
+
+const year =
+    document.getElementById(
+        "year"
+    );
+
+
+if (year) {
+
+    year.textContent =
+        new Date().getFullYear();
+
+}
+
+
+/* =====================================================
+   ACTIVE NAVIGATION
+   ===================================================== */
+
+const sections =
+    document.querySelectorAll(
+        "main section[id]"
+    );
+
+
+const navLinks =
+    document.querySelectorAll(
+        ".nav a[href^='#']"
+    );
+
+
+if (
+    sections.length &&
+    navLinks.length
+) {
+
+    window.addEventListener(
+        "scroll",
+        function () {
+
+            let current = "";
+
+            const position =
+                window.scrollY + 160;
+
+
+            sections.forEach(
+                function (section) {
+
+                    if (
+                        position >=
+                        section.offsetTop &&
+                        position <
+                        section.offsetTop +
+                        section.offsetHeight
+                    ) {
+
+                        current =
+                            section.id;
+
+                    }
+
+                }
+            );
+
+
+            navLinks.forEach(
+                function (link) {
+
+                    link.classList.remove(
+                        "active"
+                    );
+
+
+                    if (
+                        link.getAttribute(
+                            "href"
+                        ) ===
+                        "#" + current
+                    ) {
+
+                        link.classList.add(
+                            "active"
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+}
 ```
+
+});
